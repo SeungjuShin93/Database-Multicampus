@@ -14,8 +14,8 @@ CREATE TABLE  Customer (
 
 CREATE TABLE Orders (
   orderid INTEGER PRIMARY KEY,
-  custid  INTEGER ,
-  bookid  INTEGER ,
+  custid  INTEGER , -- FK
+  bookid  INTEGER , -- FK
   saleprice INTEGER ,
   orderdate DATE,
   FOREIGN KEY (custid) REFERENCES Customer(custid),
@@ -62,37 +62,38 @@ INSERT INTO Imported_Book VALUES(22, 'Soccer Skills', 'Human Kinetics', 15000);
 commit;
 
 -- 퀴즈 --
-SELECT bookname, price FROM Book;
+SELECT bookname, price FROM Book; -- 1번
 
-SELECT * FROM Book;
+SELECT * FROM Book; -- 2번
 
-SELECT DISTINCT publisher FROM book;
+SELECT DISTINCT publisher FROM book; -- 3번
 
-SELECT bookname, price FROM book WHERE price < 20000;
+SELECT * FROM book WHERE price < 20000; -- 4번
 
-SELECT bookname, price FROM book WHERE price BETWEEN 10000 AND 20000;
+SELECT * FROM book WHERE price BETWEEN 10000 AND 20000; -- 5번
 
-SELECT bookname, publisher FROM book WHERE publisher IN ('굿스포츠', '대한미디어');
+SELECT bookname, publisher FROM book WHERE publisher IN ('굿스포츠', '대한미디어');  -- 6번
+SELECT bookname, publisher FROM book WHERE publisher NOT IN ('굿스포츠', '대한미디어');  -- 6번 반대 경우
 
-SELECT bookname, publisher FROM book WHERE bookname LIKE '%축구%'; 
+SELECT bookname, publisher FROM book WHERE bookname LIKE '%축구%';  -- 7번
 
-SELECT bookname, publisher FROM book WHERE bookname LIKE '_구%';
+SELECT * FROM book WHERE bookname LIKE '_구%'; -- 8번
 
-SELECT bookname, price FROM book WHERE bookname LIKE '%축구%' AND price >= 20000;
+SELECT * price FROM book WHERE bookname LIKE '%축구%' AND price >= 20000; -- 9번
 
-SELECT bookname, publisher FROM book WHERE publisher = '굿스포츠' or publisher = '대한미디어';
+SELECT bookname, publisher FROM book WHERE publisher = '굿스포츠' or publisher = '대한미디어'; -- 10번
 
-SELECT bookname FROM book ORDER BY bookname;
+SELECT bookname FROM book ORDER BY bookname; -- 11번
 
-SELECT bookname, price FROM book ORDER BY price, bookname;
+SELECT bookname, price FROM book ORDER BY price, bookname; -- 12번
 
-SELECT bookname, price, publisher FROM book ORDER BY price DESC, publisher ASC;
+SELECT bookname, price, publisher FROM book ORDER BY price DESC, publisher ASC; -- 13번
 
-SELECT SUM(saleprice) FROM Orders;
+SELECT SUM(saleprice) FROM Orders;  -- 14번
 
 SELECT custid as '김연아 고객', SUM(saleprice) as '총 판매액' FROM Orders WHERE custid =2 GROUP BY custid; -- 15번
 
-SELECT SUM(saleprice), AVG(saleprice), MIN(saleprice), MAX(saleprice) FROM Orders;
+SELECT SUM(saleprice), AVG(saleprice), MIN(saleprice), MAX(saleprice) FROM Orders; -- 16번
 
 SELECT COUNT(orderid) as '판매 건수' FROM Orders; -- 17번
 
@@ -104,7 +105,7 @@ JOIN Orders O
 ON C.custid = O.custid
 GROUP BY C.name; -- 18번 정욱님 답
 
-SELECT custid, COUNT(*), SUM(saleprice) FROM Orders WHERE saleprice >= 8000 GROUP BY custid Having COUNT(*) >=2; -- 19번 수량
+SELECT custid, COUNT(*), SUM(saleprice) FROM Orders WHERE saleprice >= 8000 GROUP BY custid Having COUNT(*) >=2; -- 19번
 SELECT C.name '이름', COUNT(O.orderid) '도서의 총 수량', SUM(O.saleprice) '총 판매액'
 FROM Customer C
 JOIN Orders O
