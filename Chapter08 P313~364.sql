@@ -766,4 +766,3 @@ SELECT * FROM v_userbuyTbl;
 CHECK TABLE v_userbuyTbl;
 
 -- </실습 6> --
-
