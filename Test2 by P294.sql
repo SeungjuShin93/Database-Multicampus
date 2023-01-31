@@ -283,3 +283,22 @@ WHERE EXISTS (SELECT * FROM Orders od WHERE cs.custid = od.custid); -- 31번 강
 31. 주문이 있는 고객의 이름과 주소를 보이시오.
 
 */
+SELECT  B1.bookname
+FROM Book B1
+JOIN (SELECT publisher, avg(price) as avgprice FROM Book GROUP BY publisher) C ON B1.publisher = C.publisher
+WHERE B1.price > avgprice;
+
+SELECT  B.publisher	'출판사'
+       ,R.avg_price	'출판사 도서별 평균 가격'
+       ,B.bookname	'출판사 도서별 평균 가격보다 비싼 도서'
+       ,B.price	'도서의 가격'
+FROM Book B
+JOIN
+(
+	SELECT  publisher
+	       ,ROUND(AVG(price)) as 'avg_price'
+	FROM Book
+	GROUP BY  publisher
+) R
+ON B.publisher = R.publisher
+WHERE B.price > R.avg_price; --
